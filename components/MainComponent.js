@@ -3,12 +3,32 @@ import { Text, View, StyleSheet } from 'react-native'
 import Button from 'react-native-button';
 
 export default class MainComponent extends Component {
-  render() {
-    const { navigation } = this.props;
-    let datosAEnviar = {
-        name: "Star Wars",
-        release: 1977
+  
+    static navigationOptions = ({navigation}) => {
+        const { params = {}} = navigation.state;
+        let headerTitle = "Main";
+        let headerTitleStyle = { color: 'blue', alignSelf: 'center',};
+        let headerRight = (
+          <Button 
+            containerStyle= {{margin:5, padding: 10, borderRadius: 10, backgroundColor: 'darkviolet'}}
+            style = {{ fontSize: 15, color: 'white'}}
+            onPress = { ()=>{
+              params.onSave();
+            }}> Guardar </Button>);
+        return { headerTitle,headerTitleStyle,headerRight };
+      }
+    onSave(){
+      alert("Se guarda!");
     }
+    componentDidMount(){
+      this.props.navigation.setParams({ onSave: this.onSave.bind(this), isSaving: false})
+    }
+    render() {
+        const { navigation } = this.props;
+        let datosAEnviar = {
+            name: "Star Wars",
+            release: 1977
+        }
     return (
       <View style = { styles.container }>
         <Text style = {styles.textStyle }> Menú Principal </Text>

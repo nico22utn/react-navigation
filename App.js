@@ -4,13 +4,11 @@ import DetailComponent from './components/DetailComponent';
 import TercerComponent from './components/TercerComponent';
 import MainComponent from './components/MainComponent';
 import { createStackNavigator, createAppContainer } from "react-navigation";
+import Button from 'react-native-button';
 
 const AppNavigator = createStackNavigator({
   Main: {
-    screen: MainComponent,
-    navigationOptions: {
-      headerTitle: "Main"
-    }
+    screen: MainComponent
   },
   Detail: {
     screen: DetailComponent,
