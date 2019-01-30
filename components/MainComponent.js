@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import { Text, View, StyleSheet, ActivityIndicator } from 'react-native'
 import Button from 'react-native-button';
 
 export default class MainComponent extends Component {
@@ -15,10 +15,17 @@ export default class MainComponent extends Component {
             onPress = { ()=>{
               params.onSave();
             }}> Guardar </Button>);
-        return { headerTitle,headerTitleStyle,headerRight };
+        let headerBackTitle = "Nico";
+        return { headerTitle,headerTitleStyle,headerRight,headerBackTitle };
       }
     onSave(){
-      alert("Se guarda!");
+        if (this.props.navigation.state.params.isSaving ==true){
+            return;
+        }  
+        this.props.navigation.setParams({ isSaving: true});
+        setInterval( () => {
+            this.props.navigation.setParams({isSaving: false});
+        },3000)
     }
     componentDidMount(){
       this.props.navigation.setParams({ onSave: this.onSave.bind(this), isSaving: false})
@@ -28,23 +35,23 @@ export default class MainComponent extends Component {
         let datosAEnviar = {
             name: "Star Wars",
             release: 1977
-        }
-    return (
-      <View style = { styles.container }>
-        <Text style = {styles.textStyle }> Menú Principal </Text>
-        <Button containerStyle = {{ padding: 10, margin: 20, width: 200, height: 45, borderRadius: 10, backgroundColor: 'darkviolet'}}
-            style = {{fontSize: 10, color: 'white'}}
-            onPress = { () => {
-                navigation.navigate("Detail",datosAEnviar);
-            }}>Ir al Detalle</Button> 
-        <Button containerStyle = {{ padding: 10, margin: 20, width: 200, height: 45, borderRadius: 10, backgroundColor: 'darkviolet'}}
-            style = {{fontSize: 10, color: 'white'}}
-            onPress = { () => {
-                navigation.navigate("Tercer");
-            }}>Ir al TercerComponente</Button> 
-      </View>
-    )
-  }
+        };
+        let mainView = (navigation.state.params && navigation.state.params.isSaving == true) ? <ActivityIndicator/>: 
+        <View style = { styles.container }>
+            <Text style = {styles.textStyle }> Menú Principal </Text>
+            <Button containerStyle = {{ padding: 10, margin: 20, width: 200, height: 45, borderRadius: 10, backgroundColor: 'darkviolet'}}
+                style = {{fontSize: 10, color: 'white'}}
+                onPress = { () => {
+                    navigation.navigate("Detail",datosAEnviar);
+                }}>Ir al Detalle</Button> 
+            <Button containerStyle = {{ padding: 10, margin: 20, width: 200, height: 45, borderRadius: 10, backgroundColor: 'darkviolet'}}
+                style = {{fontSize: 10, color: 'white'}}
+                onPress = { () => {
+                    navigation.navigate("Tercer");
+                }}>Ir al TercerComponente</Button> 
+        </View>;
+        return mainView;
+    }
 }
 const styles = StyleSheet.create({
     container: {

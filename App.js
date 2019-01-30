@@ -11,10 +11,7 @@ const AppNavigator = createStackNavigator({
     screen: MainComponent
   },
   Detail: {
-    screen: DetailComponent,
-    navigationOptions: {
-      headerTitle: "Detail"
-    }
+    screen: DetailComponent
   },
   Tercer: {
     screen: TercerComponent,
